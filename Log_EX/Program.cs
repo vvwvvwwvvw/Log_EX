@@ -1,5 +1,6 @@
 ﻿using System;
-using static Log_EX.LogManager;
+using System.Diagnostics;
+
 
 namespace Log_EX
 {
@@ -40,9 +41,10 @@ namespace Log_EX
             if (eCurLogLv < eLogLv)
                 return;
 
-            System.Diagnostics.StackFrame stackFrame = new System.Diagnostics.StackFrame(1, true);
+            StackFrame stackFrame = new StackFrame(1, true);
             string funcName = stackFrame.GetMethod().Name; //프레임이 실행 되고 있는 메서드 가져오기
             string fileName = stackFrame.GetFileName(); // 실행 중인 코드를 포함하는 파일 이름 가져오기 (실행 파일의 디버깅 기호에서 추출)
+
             string fileLine = stackFrame.GetFileLineNumber().ToString(); // 실행중인 코드를 포함하는 파일에서 줄 번호 가져오기 ( 실행파일의 디버깅 기호에서 추출).스택 추적 생성
 
             // ,(콤마)는 .csv 파일에서 구분문자로 사용
@@ -61,7 +63,7 @@ namespace Log_EX
             {
                 streamWrite.Close();
                 fileStream.Close();
-                CreateLogFile();
+                CreateLogFile(); 
             }
         }
     }
@@ -85,9 +87,11 @@ namespace Log_EX
 
         static void Main(string[] args)
         {
+            
             LogManager logManager = new LogManager();
             Play play = new Play(logManager);
             play.LogTest();
+            
         }
     }
 }
